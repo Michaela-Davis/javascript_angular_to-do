@@ -4,8 +4,16 @@ import { Task } from './task.model';
 @Component({
   selector: 'task-list',
   template: `
+  <select (change)="onChange($event.target.value)">
+   <option value="allTasks">All Tasks</option>
+   <option value="completedTasks">Completed Tasks</option>
+   <option value="incompleteTasks" selected="selected">Incomplete Tasks</option>
+  </select>
   <ul>
-    <li (click)="isDone(currentTask)" *ngFor="let currentTask of childTaskList">{{currentTask.description}} <button (click)="editButtonHasBeenClicked(currentTask)">Edit!</button></li>
+    <li (click)="isDone(currentTask)" *ngFor="let currentTask of childTaskList | completeness:filerByCompleteness">{{currentTask.description}} {{currentTask.priority}}
+    <input *ngIf="currentTask.done === true" type="checkbox" (click)="toggleDone(currentTask, false)"/>
+    <input *ngIf="currentTask.done === false" type="checkbox" (click)="toggleDone(currentTask, true)"/>
+     <button (click)="editButtonHasBeenClicked(currentTask)">Edit!</button></li>
   </ul>
   `
 })
@@ -14,11 +22,7 @@ export class TaskListComponent {
   @Input() childTaskList: Task[];
   @Output() clickSender = new EventEmitter();
 
-  // masterTaskList: Task[] = [
-  //   new Task('Finish some Angular homework stuff', 3),
-  //   new Task('Begin brainstorming possible JavaScript group projects', 2),
-  //   new Task('Add README file to last few Angular repos on GitHub', 1)
-  // ];
+  filerByCompleteness: string = "incompleteTasks";
 
   editButtonHasBeenClicked(taskToEdit: Task) {
     this.clickSender.emit(taskToEdit);
@@ -39,6 +43,10 @@ export class TaskListComponent {
     } else {
       return "bg-success";
     }
+  }
+
+  onChange(optionFromMenu) {
+    this.filerByCompleteness = optionFromMenu;
   }
 
 }
