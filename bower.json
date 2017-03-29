@@ -3,7 +3,7 @@
   "description": "crap",
   "main": "index.html",
   "license": "ISC",
-  "homepage": "",
+  "homepage": "https://github.com/Michaela-Davis/javascript_angular_to-do",
   "ignore": [
     "**/.*",
     "node_modules",
