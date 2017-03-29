@@ -49,4 +49,8 @@ export class TaskListComponent {
     this.filerByCompleteness = optionFromMenu;
   }
 
+  toggleDone(clickedTask: Task, setCompleteness:boolean) {
+    clickedTask.done =setCompleteness;
+  }
+
 }
